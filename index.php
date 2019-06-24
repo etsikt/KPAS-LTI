@@ -3,7 +3,9 @@ error_reporting(E_ALL & ~E_NOTICE);
 ini_set("display_errors", 1);
 
 require_once 'ims-blti/blti.php';
+//Canvas configuration
 $lti = new BLTI("7ea25a9aa639a4a9ba254e2d492bc566", false, false);
+//$lti = new BLTI("fc83dea2b575f839f450a7e4bb972c6a", false, false);
 
 session_start();
 header('Content-Type: text/html; charset=utf-8');

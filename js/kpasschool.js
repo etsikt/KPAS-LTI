@@ -80,6 +80,7 @@ this.kpas.school = function() {
   /**
    * Available counties: Name, County number.
    **/
+  alert("Get counties from https://data-nsr.udir.no/fylker");
   var county = [
     createCounty('Troms', '19'),
     createCounty('Oslo', '3'),
@@ -89,6 +90,7 @@ this.kpas.school = function() {
   /**
    * Available communities: Name, Community number, County number
    **/
+  alert("Get communities from https://data-nsr.udir.no/kommuner/...");
   var communities = [
     createCommunity('Tromsø', '1902', '19'),
     createCommunity('Balsfjord', '1933', '19'),
@@ -100,6 +102,7 @@ this.kpas.school = function() {
   /**
    * Available schools: Name, NSRid, Community number
    **/
+  alert("Get schools from https://data-nsr.udir.no/enheter/kommune/...");
   var schools = [
     createSchool('Solneset skole', '1008716', '1902'),
     createSchool('Gyllenborg skole', '1005091', '1902'),
@@ -154,6 +157,7 @@ this.kpas.school = function() {
       https://canvas.instructure.com/doc/api/enrollments.html#method.enrollments_api.index
       Scope: url:GET|/api/v1/users/:user_id/enrollments
       */
+      alert("Get enrollments from Canvas");
       var enrollments = [{course_id:1,role: "Skoleleder"}]; //Get this from Canvas
       //Skoleleder is a role that must be configured in Canvas. It should also
       //be configurable in KPAS LTI
