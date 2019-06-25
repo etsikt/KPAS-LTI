@@ -4,7 +4,7 @@ ini_set("display_errors", 1);
 
 require_once 'ims-blti/blti.php';
 //Canvas configuration
-$lti = new BLTI("7ea25a9aa639a4a9ba254e2d492bc566", false, false);
+$lti = new BLTI("fc83dea2b575f839f450a7e4bb972c6a", false, false);
 //$lti = new BLTI("fc83dea2b575f839f450a7e4bb972c6a", false, false);
 
 session_start();
@@ -45,10 +45,6 @@ error_log("KPAS LTI start");
    }
    echo "</pre><h3>REQUEST parametere</h3><pre>";
    foreach($_REQUEST as $key => $value) {
-       print "$key=$value\n";
-   }
-   echo "<pre><h3>SERVER parametere</h3>";
-   foreach($_SERVER as $key => $value) {
        print "$key=$value\n";
    }
  ?>
