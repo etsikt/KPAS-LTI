@@ -21,9 +21,13 @@ if ($lti->valid) {
     error_log("LTI is valid");
     $user_id = $_POST["custom_canvas_user_id"];
     $course_id = $_POST["custom_canvas_course_id"];
-    $isPrincipal = isPrincipal($user_id, $course_id);
+    $user_login_id= $_POST["custom_canvas_user_login_id"];
+
+    mydbg("Checking if principal");
+    $isPrincipal = isPrincipal($user_login_id, $course_id);
     $_SESSION["canvas_user_id"] = $user_id;
     $_SESSION["canvas_course_id"] = $course_id;
+    $_SESSION["canvas_user_login_id"] = $user_login_id;
 }
 ?>
 <!DOCTYPE html>
@@ -41,6 +45,9 @@ if ($lti->valid) {
     <script type='text/javascript'>
         function getCanvasUserId() {
             return $user_id;
+        }
+        function getCanvasUserLoginId() {
+            return "$user_login_id";
         }
         function getCanvasCourseId() {
             return $course_id;

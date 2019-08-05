@@ -118,6 +118,19 @@ function getRoleIdFor($roleType)
     return $roleId;
 }
 
+function unenrollFromRole($enrollments, $roleType) {
+    global $site;
+    global $canvas_access_key;
+    foreach ($enrollments as $enrollment)
+    {
+        if($enrollment["role"] == $roleType) {
+            mydbg("<br/>Fjerner deg fra tidligere seksjon med enrollment id " . $unenrollmentId,2);
+            $uri = $site . "/api/v1/courses/" . $enrollment["course_id"] . "/enrollments/"  . $enrollment["id"] . "?task=delete";
+            mycurldelete($uri, $canvas_access_key);
+        }
+    }
+}
+
 function unenrollUserFrom($user_id, $course_id, $unenrollmentIds)
 {
     if(!$unenrollmentIds) return;
@@ -148,6 +161,22 @@ function enrollPrincipalInSection($user_id, $course_id, $section_id)
     }
     return $enrollment;
 }
+function enrollPrincipalInCourse($user_id, $course_id)
+{
+    global $principalRoleType;
+    $enrollment = null;
+    $role_id = getRoleIdFor($principalRoleType);
+    if($role_id)
+    {
+        mydbg("Legger deg til i kurs " . $course_id . " som skoleleder.",2);
+        $enrollment = enrollInCourse($user_id, $role_id, $course_id);
+    }
+    else
+    {
+        mydbg("Kunne ikke finne rolle-id for skoleleder.",2);
+    }
+    return $enrollment;
+}
 
 function enrollInSection($user_id, $role_id, $course_id, $section_id)
 {
@@ -164,6 +193,34 @@ function enrollInSection($user_id, $role_id, $course_id, $section_id)
     $enrollment = mypostcurl($uri, $fields, $canvas_access_key);
 	return $enrollment;
 }
+function enrollInCourse($user_id, $role_id, $course_id)
+{
+    global $site;
+    global $canvas_access_key;
+    $uri = $site . "/api/v1/courses/" . $course_id . "/enrollments";
+    $fields = array(
+        'enrollment[user_id]' => $user_id,
+        'enrollment[role_id]' => $role_id,
+        'enrollment[enrollment_state]' => "active",
+        'enrollment[self_enrolled]' => 'true'
+    );
+    $enrollment = mypostcurl($uri, $fields, $canvas_access_key);
+	return $enrollment;
+}
+function enrollStudentInCourse($user_id, $course_id)
+{
+    global $site;
+    global $canvas_access_key;
+    $uri = $site . "/api/v1/courses/" . $course_id . "/enrollments";
+    $fields = array(
+        'enrollment[user_id]' => $user_id,
+        'enrollment[enrollment_state]' => "active",
+        'enrollment[self_enrolled]' => 'true'
+    );
+    $enrollment = mypostcurl($uri, $fields, $canvas_access_key);
+	return $enrollment;
+}
+
 
 function enrollStudentInSection($user_id, $course_id, $section_id)
 {
@@ -284,37 +341,50 @@ function getGroupCategories($course_id)
     return $result;
 }
 
-function getCanvasEnrollments($user_id)
+function getCanvasEnrollmentsForCourse($user_login_id, $course_id)
 {
     global $site;
     global $canvas_access_key;
+    $enrollments = array();
 
-    if(!$user_id)
-    {
-        return;
-    }
-    $api_endpoint = $site . "/api/v1/users/" .$user_id . "/enrollments?per_page=999";
+    //api/v1/courses/286/users?search_term=erlend.thune@udir.no&enrollment_role_id=79&include[]=enrollments
+    $api_endpoint = $site . "/api/v1/courses/" .$course_id . "/users?search_term=" . $user_login_id . "&include[]=enrollments";
     $result = mygetcurl($api_endpoint, $canvas_access_key);
-    return $result;
+
+    $courseEnrollments = null;
+	foreach($result as $r)
+	{
+	    if(($r["login_id"] == $user_login_id))
+	    {
+    	    myvardump($r);
+	        mydbg("Pushing enrollments");
+	        $courseEnrollments = $r["enrollments"];
+	        break;
+	    } else {
+	        mydbg("Skip login id:" . $r["login_id"] . " different from " . $user_login_id);
+	    }
+	}
+	mydbg("Courseenrollments:");
+	myvardump($courseEnrollments);
+	return $courseEnrollments;
 }
-function isPrincipal($user_id, $course_id)
+function isPrincipal($user_login_id, $course_id)
 {
     global $principalRoleType;
     $isPrincipal = false;
-    if(!$user_id || !$course_id)
-    {
-        return;
-    }
-    $enrollments = getCanvasEnrollments($user_id);
+    $enrollments = getCanvasEnrollmentsForCourse($user_login_id, $course_id);
 	foreach($enrollments as $enrollment)
 	{
-        myvardump($enrollment);
-//	    print "<br/>Enrollment: ". $enrollment["role"];
+	    mydbg("Enrollment id: ". $enrollment["id"]);
+	    mydbg("Enrollment course id: ". $enrollment["course_id"]);
+	    mydbg("Enrollment role: ". $enrollment["role"]);
 	    if(($enrollment["course_id"] == $course_id) && ($enrollment["role"] == $principalRoleType))
 	    {
+        	mydbg("Du er skoleleder.");
 	        return true;
 	    }
 	}
+	mydbg("Du er ikke skoleleder.");
 	return false;
 }
 

@@ -19,12 +19,10 @@ $isValidSession = false;
 if(isset($_SESSION["canvas_user_id"])){
     $isValidSession = true;
     $user_id = $_SESSION["canvas_user_id"];
+    $user_login_id = $_SESSION["canvas_user_login_id"];
     $course_id = $_SESSION["canvas_course_id"];
 }
 
-if($user_id && $course_id) {
-    $isPrincipal = isPrincipal($user_id, $course_id);
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,11 +34,42 @@ if($user_id && $course_id) {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src="js/kpasschool.js"></script>
     <script src="js/main.js"></script>
-<?php
+ </head>
+
+  <body>
+
+  <?php
+    global $principalRoleType;
+    if($isValidSession) {
+        global $principalRoleType;
+
+        $newRole = $_GET["newRole"];
+        $enrollmentResult = "Kunne ikke endre rolle.";
+
+        $enrollments = getCanvasEnrollmentsForCourse($user_login_id, $course_id);
+
+        if($newRole == $principalRoleType) {
+            unenrollFromRole($enrollments, "StudentEnrollment");
+            $enrollmentResult = enrollPrincipalInCourse($user_id, $course_id);
+        } else {
+            unenrollFromRole($enrollments, $principalRoleType);
+            $enrollmentResult = enrollStudentInCourse($user_id, $course_id);
+        }
+        myvardump($enrollmentResult);
+    } else
+    {
+        echo "<h2>Noe gikk galt, ta kontakt med kompetansesupport@udir.no</h2>";
+    }
+    if($user_login_id && $course_id) {
+        $isPrincipal = isPrincipal($user_login_id, $course_id);
+    }
     echo <<<EOT
     <script type='text/javascript'>
         function getCanvasUserId() {
             return $user_id;
+        }
+        function getCanvasUserLoginId() {
+            return "$user_login_id";
         }
         function getCanvasCourseId() {
             return $course_id;
@@ -50,19 +79,6 @@ if($user_id && $course_id) {
         }
     </script>
 EOT;
-?>
- </head>
-
-  <body>
-
-  <?php
-    if($isValidSession) {
-        $newRole = $_GET["newRole"];
-        echo "Endrer rollen din til " . $newRole;
-    } else
-    {
-        echo "<h2>Noe gikk galt, ta kontakt med kompetansesupport@udir.no</h2>";
-    }
  ?>
   <div id="kpasschoolroleinfo"></div>
   </body>

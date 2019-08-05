@@ -49,6 +49,6 @@ else
     $canvas_access_key = "3727~YNUJGTLTd63CjSBAOrAPLaFbP7QOtugI4IIdMc7COvdhq5zxe9UIjr2CQiphzAOZ";
 
     $principalRoleType = "Skoleleder";
-    $account_id =1;
+    $account_id =99;
 }
 ?>
