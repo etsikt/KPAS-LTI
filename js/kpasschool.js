@@ -8,13 +8,14 @@ this.kpas.school = function() {
       but we want the user to be enrolled in the course and not in a course section because
       Canvas does not handle a large number of sections very well.
       */
-      alert("Enrolling you as " + role);
+//      alert("Enrolling you as " + role);
   }
   function joinGroup(school) {
       /*Enroll user in group
-        You can base it on addUserToGroup in AppServiceProvider.php
+        You can base it on addUserToGroup in CanvasRepository.php
+        Note that the user should not be added to a section.
       */
-    alert("Joining group " + school);
+//    alert("Joining group " + school);
   }
   /**
    * Helper function for creating county
@@ -80,6 +81,7 @@ this.kpas.school = function() {
   /**
    * Available counties: Name, County number.
    **/
+//  alert("Get counties from https://data-nsr.udir.no/fylker");
   var county = [
     createCounty('Troms', '19'),
     createCounty('Oslo', '3'),
@@ -89,6 +91,7 @@ this.kpas.school = function() {
   /**
    * Available communities: Name, Community number, County number
    **/
+//  alert("Get communities from https://data-nsr.udir.no/kommuner/...");
   var communities = [
     createCommunity('Tromsø', '1902', '19'),
     createCommunity('Balsfjord', '1933', '19'),
@@ -100,6 +103,7 @@ this.kpas.school = function() {
   /**
    * Available schools: Name, NSRid, Community number
    **/
+//  alert("Get schools from https://data-nsr.udir.no/enheter/kommune/...");
   var schools = [
     createSchool('Solneset skole', '1008716', '1902'),
     createSchool('Gyllenborg skole', '1005091', '1902'),
@@ -150,40 +154,31 @@ this.kpas.school = function() {
   }
 
   function displaySchoolRoleSelector(courseId, userId) {
-      /*TODO: GET THE USERS ENROLLMENTS FROM CANVAS 
+      /*TODO: GET THE USERS ENROLLMENTS FROM CANVAS
       https://canvas.instructure.com/doc/api/enrollments.html#method.enrollments_api.index
       Scope: url:GET|/api/v1/users/:user_id/enrollments
       */
-      var enrollments = [{course_id:1,role: "Skoleleder"}]; //Get this from Canvas
-      //Skoleleder is a role that must be configured in Canvas. It should also
-      //be configurable in KPAS LTI
-      
-      var principal = false;
-      for (var i = 0; i < enrollments.length; i++) {
-        var enrollment = enrollments[i];
-        if(enrollment.course_id == courseId)
-        {
-          if(enrollment.role == "Skoleleder")
-          {
-              principal = true;
-          }
-      }
+//      alert("Get enrollments from Canvas");
+      var canvasUserId = getCanvasUserId();
+//      alert(canvasUserId);
+      var canvasCourseId = getCanvasCourseId();
+      var principal = isPrincipal();
+//      alert(principal);
+
       var html = "Du er registrert som ";
       var buttonText = "Bli student";
+      var newRole = "Skoleleder";
       if(principal) {
         html += "skoleleder";
+        newRole = "Student";
       } else {
         html += "student";
         buttonText = "Bli skoleleder";
       }
-      
+
       $("#kpasschoolroleinfo").html(html);
 
-      $("#kpasschoolroleinfo").append("<button class='.btn' id='kpasChangeRoleButton'>" + buttonText + "</button");
-      $("#kpasChangeRoleButton").button().click(function() {
-          enrollUser(activeButtonClass);
-        });
-      }
+      $("#kpasschoolroleinfo").append(" <a href='enrolluser.php?newRole=" + newRole + "' class='btn btn-primary' id='kpasChangeRoleButton'>" + buttonText + "</a");
     }
 
     return {
@@ -207,7 +202,7 @@ this.kpas.school = function() {
             $("#kpasschoolUserInfo").html("");
         },
         display: function() {
-          displaySchoolSelector();
+//          displaySchoolSelector();
           displaySchoolRoleSelector(1,1);
         },
 

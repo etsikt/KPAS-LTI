@@ -1,0 +1,52 @@
+<?php
+//DEBUGGING TRUE=ON
+$verbose = FALSE;
+$verbose_level = 3;
+$curl_verbose = FALSE;
+
+//Dataporten app
+$client_id = "";
+$client_secret = "";
+$redirect_uri = "";
+
+//Canvas connection
+$site = "";
+$canvas_access_key = "";
+$principalRoleType = "Rektor";
+$account_id = 1;
+
+
+if(getenv('APPSETTING_DATAPORTEN_AZURE'))
+{
+    //Dataporten app
+    $client_id      = getenv('APPSETTING_DATAPORTEN_CLIENT_ID');
+    $client_secret  = getenv('APPSETTING_DATAPORTEN_CLIENT_SECRET');
+    $redirect_uri   = getenv('APPSETTING_DATAPORTEN_REDIRECT_URI');
+
+    //Canvas connection
+    $site               = getenv('APPSETTING_CANVAS_URI');
+    $canvas_access_key         = getenv('APPSETTING_CANVAS_TOKEN');
+    $principalRoleType  = getenv('APPSETTING_CANVAS_PRINCIPAL_ROLE_TYPE');
+    $account_id         = getenv('APPSETTING_CANVAS_ACCOUNT_ID');
+
+    //Logging
+    $verbose_level = getenv('APPSETTING_LOG_LEVEL');
+    if($verbose_level)
+    {
+        $verbose = TRUE;
+    }
+}
+else
+{
+    //Dataporten app
+    $client_id      = "";
+    $client_secret  = "";
+    $redirect_uri   = "http://localhost:8880/kpas/index.php";
+
+    //Canvas connection
+    $site               = "https://beta.kompetanse.udir.no";
+    $canvas_access_key         = "";
+    $principalRoleType  = "Rektor";
+    $account_id         =1;
+}
+?>
