@@ -8,10 +8,7 @@ require_once 'kpasinc/canvas.inc';
 require_once 'kpasinc/utility.inc';
 require_once 'kpasinc/curlutility.inc';
 
-
-//Canvas configuration
 $lti = new BLTI("fc83dea2b575f839f450a7e4bb972c6a", false, false);
-//$lti = new BLTI("fc83dea2b575f839f450a7e4bb972c6a", false, false);
 
 session_start();
 header('Content-Type: text/html; charset=utf-8');

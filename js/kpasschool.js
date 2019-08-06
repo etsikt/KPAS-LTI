@@ -154,16 +154,9 @@ this.kpas.school = function() {
   }
 
   function displaySchoolRoleSelector(courseId, userId) {
-      /*TODO: GET THE USERS ENROLLMENTS FROM CANVAS
-      https://canvas.instructure.com/doc/api/enrollments.html#method.enrollments_api.index
-      Scope: url:GET|/api/v1/users/:user_id/enrollments
-      */
-//      alert("Get enrollments from Canvas");
       var canvasUserId = getCanvasUserId();
-//      alert(canvasUserId);
       var canvasCourseId = getCanvasCourseId();
       var principal = isPrincipal();
-//      alert(principal);
 
       var html = "Du er registrert som ";
       var buttonText = "Bli student";
