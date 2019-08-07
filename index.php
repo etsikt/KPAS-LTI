@@ -33,6 +33,8 @@ if ($lti->valid) {
     <meta charset="UTF-8" />
     <title>Rollevalg for fagfornyelsen</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://kompetanseplattform.azurewebsites.net/mmooc-min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src="js/kpasschool.js"></script>
@@ -58,6 +60,7 @@ EOT;
  </head>
 
   <body>
+
     <div id="kpasschoolroleinfo"></div>
 <!--    Du er medlem av følgende grupper:<br/>
     Fylke: ingen<br/>

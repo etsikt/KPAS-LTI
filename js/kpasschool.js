@@ -153,19 +153,30 @@ this.kpas.school = function() {
     addOptions(countySelect, county);
   }
 
-  function displaySchoolRoleSelector(courseId, userId) {
+
+
+  function displaySchoolRoleSelector() {
       var canvasUserId = getCanvasUserId();
       var canvasCourseId = getCanvasCourseId();
       var principal = isPrincipal();
 
       var html = "Du er registrert som ";
-      var buttonText = "Bli student";
+      var buttonText = "Bli deltager";
       var newRole = "Skoleleder";
       if(principal) {
-        html += "skoleleder";
+        html += "skoleleder. <p/>";
+        html += "Som skoleleder får du se \
+         innhold som hjelper deg &aring; lede arbeidet med fagfornyelsen \
+          i din organisasjon. Dette innholdet er markert med et eget ikon: <img src='img/usertie.png'/><p/> \
+          Dersom du ikke er skoleleder kan du velge å bli deltager i stedet.<p/>";
+
         newRole = "Student";
       } else {
-        html += "student";
+        html += "deltager. <p/>";
+        html += "Dersom du er skoleeier- eller leder skal du  \
+         ogs&aring; sette deg inn i innhold som hjelper deg &aring; lede arbeidet med fagfornyelsen \
+          i din organisasjon. Dette innholdet vil markeres med et eget ikon: <img src='img/usertie.png'/><p/>";
+
         buttonText = "Bli skoleleder";
       }
 
@@ -194,9 +205,32 @@ this.kpas.school = function() {
             $("#kpasschoolContent").html("");
             $("#kpasschoolUserInfo").html("");
         },
+        displayEnrollResult : function() {
+          var canvasUserId = getCanvasUserId();
+          var canvasCourseId = getCanvasCourseId();
+          var principal = isPrincipal();
+
+          var html = "Du er nå registrert som ";
+          var buttonText = "Bli deltager";
+          var newRole = "Skoleleder";
+          if(principal) {
+            html += "skoleleder. <p/>";
+            newRole = "Student";
+          } else {
+            html += "deltager. <p/>";
+            buttonText = "Bli skoleleder";
+          }
+          html += "Klikk på fanen <i>Kompetansepakkeforside</i> for å se \
+          hvordan forsiden har endret seg.<p/>";
+
+          $("#kpasschoolroleinfo").html(html);
+
+          $("#kpasschoolroleinfo").append(" <a href='enrolluser.php?newRole=" + newRole + "' class='btn btn-primary' id='kpasChangeRoleButton'>" + buttonText + "</a");
+        },
+
         display: function() {
 //          displaySchoolSelector();
-          displaySchoolRoleSelector(1,1);
+          displaySchoolRoleSelector();
         },
 
 

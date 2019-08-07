@@ -30,10 +30,12 @@ if(isset($_SESSION["canvas_user_id"])){
     <meta charset="UTF-8" />
     <title>Rollevalg for fagfornyelsen</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://kompetanseplattform.azurewebsites.net/mmooc-min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src="js/kpasschool.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/mainenroll.js"></script>
  </head>
 
   <body>
@@ -49,7 +51,8 @@ if(isset($_SESSION["canvas_user_id"])){
         $enrollments = getCanvasEnrollmentsForCourse($user_login_id, $course_id);
 
         if($newRole == $principalRoleType) {
-            unenrollFromRole($enrollments, "StudentEnrollment");
+        //Do not remove studentEnrollment. A principal should both be student and leader.
+//            unenrollFromRole($enrollments, "StudentEnrollment");
             $enrollmentResult = enrollPrincipalInCourse($user_id, $course_id);
         } else {
             unenrollFromRole($enrollments, $principalRoleType);
@@ -81,5 +84,6 @@ if(isset($_SESSION["canvas_user_id"])){
 EOT;
  ?>
   <div id="kpasschoolroleinfo"></div>
+  </p>
   </body>
 </html>
