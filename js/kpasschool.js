@@ -220,7 +220,7 @@ this.kpas.school = function() {
             html += "deltager. <p/>";
             buttonText = "Bli skoleleder";
           }
-          html += "Klikk på fanen <i>Kompetansepakkeforside</i> for å se \
+          html += "Klikk på fanen <i>Forside</i> for å se \
           hvordan forsiden har endret seg.<p/>";
 
           $("#kpasschoolroleinfo").html(html);
