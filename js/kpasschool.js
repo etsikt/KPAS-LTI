@@ -186,7 +186,7 @@ this.kpas.school = function() {
     }
 
     return {
-        updateStatus : function(s, waitIcon = true) {
+        updateStatus : function(s, waitIcon) {
             $("#kpasschoolStatus").html(s);
             if(waitIcon) {
                 $("#kpasschoolStatus").append("<span class='loading-gif'></span>");
