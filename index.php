@@ -1,4 +1,5 @@
 <?php
+session_start();
 error_reporting(E_ALL & ~E_NOTICE);
 ini_set("display_errors", 1);
 
@@ -10,7 +11,6 @@ require_once 'kpasinc/curlutility.inc';
 
 $lti = new BLTI("fc83dea2b575f839f450a7e4bb972c6a", false, false);
 
-session_start();
 header('Content-Type: text/html; charset=utf-8');
 error_log("KPAS LTI start");
 

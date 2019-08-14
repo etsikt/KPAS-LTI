@@ -1,4 +1,5 @@
 <?php
+session_start();
 error_reporting(E_ALL & ~E_NOTICE);
 ini_set("display_errors", 1);
 
@@ -7,7 +8,6 @@ require_once 'kpasinc/canvas.inc';
 require_once 'kpasinc/utility.inc';
 require_once 'kpasinc/curlutility.inc';
 
-session_start();
 header('Content-Type: text/html; charset=utf-8');
 error_log("KPAS ENROLL USER start");
 
