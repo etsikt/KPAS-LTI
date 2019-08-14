@@ -1,4 +1,5 @@
 <?php
+header('P3P: CP="CAO PSA OUR"');
 session_start();
 error_reporting(E_ALL & ~E_NOTICE);
 ini_set("display_errors", 1);
