@@ -208,7 +208,7 @@ this.kpas.school = function() {
         displayEnrollResult : function() {
           var canvasUserId = getCanvasUserId();
           var canvasCourseId = getCanvasCourseId();
-          if(!canasUserId || !canvasCourseId) {
+          if(!canvasUserId || !canvasCourseId) {
             return;
           }
 
