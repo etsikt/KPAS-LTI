@@ -208,6 +208,10 @@ this.kpas.school = function() {
         displayEnrollResult : function() {
           var canvasUserId = getCanvasUserId();
           var canvasCourseId = getCanvasCourseId();
+          if(!canasUserId || !canvasCourseId) {
+            return;
+          }
+
           var principal = isPrincipal();
 
           var html = "Du er nå registrert som ";

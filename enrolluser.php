@@ -62,7 +62,12 @@ if(isset($_SESSION["canvas_user_id"])){
         myvardump($enrollmentResult);
     } else
     {
-        echo "<h2>Noe gikk galt, ta kontakt med kompetansesupport@udir.no</h2>";
+        echo "<h2>Noe gikk galt</h2>";
+        echo "<p>Det ser ut til at din nettleser blokkerer inforomasjonskapsler(cookies).</p>";
+        echo "<p>Vi bruker informasjonskapsler til å identifisere deg når du endrer rollen din.</p>";
+        echo "<a target='_blank' href='https://nettvett.no/slik-administrer-du-informasjonskapsler/'>Slik administrer du informasjonskapsler</a>.</p>";
+        echo "<p>Dersom du ikke får til å slå på administrasjonskapsler kan du ta kontakt med din IT-avdeling for å få hjelp.</p>";
+        echo "<p>Dersom du ikke ønsker å slå på informasjonskapsler kan du be oss om å endre rollen din ved å kontakte oss på: kompetansesupport@udir.no</h2></p>";
     }
     if($user_login_id && $course_id) {
         $isPrincipal = isPrincipal($user_login_id, $course_id);
